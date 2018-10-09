@@ -34,6 +34,17 @@ module.exports = function(app) {
         //     console.log(err.message);
         //     res.json({error: "you made a boo boo"});
         //   });
-        
+        db.User.findAll({})
+        .then( dbUsers => {
+            // We have access to the todos as an argument inside of the callback function
+            res.json(dbUsers);
+        })
+        .catch( error => {
+            res.json({
+                error: "Error getting users"
+            });
+            console.log(error);
+        });
+        ;
     });
 };
