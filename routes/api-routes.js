@@ -47,4 +47,9 @@ module.exports = function(app) {
         });
         ;
     });
+    app.post("/api/user", (req, res) => {
+        res.json({
+            test: "test"
+        });
+    });
 };
