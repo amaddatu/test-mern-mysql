@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import API from '../utils/API';
 // import './Custom.css';
 
-class Discover extends Component {
+class Signup extends Component {
   handleSubmit = event => {
     event.preventDefault();
     console.log(event.target.email.value);
     console.log(event.target.password.value);
     API.registerUser(event.target.email.value, event.target.password.value)
     .then( response => {
-      console.log(response);
+      console.log(response.data);
+      window.location = "/thank-you";
     } )
     .catch( error => {
       console.log(error);
@@ -32,4 +33,4 @@ class Discover extends Component {
   }
 }
 
-export default Discover;
+export default Signup;

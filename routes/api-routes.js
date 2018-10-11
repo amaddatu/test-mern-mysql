@@ -8,32 +8,75 @@
 // Requiring our Todo model
 var db = require("../models");
 
+var LocalStrategy = require("passport-local").Strategy;
+
 // Routes
 // =============================================================
-module.exports = function(app) {
+module.exports = function(app, passport) {
+    // Define our storage for user data in passport
+    passport.serializeUser(function(user, done) {
+        done(null, user.id);
+    });
+    
+    passport.deserializeUser(function(id, done) {
+        db.User.findAll({ id: id }, function (err, user) {
+            done(err, user);
+        });
+    });
+    passport.use(new LocalStrategy(
+        function(email, password, done) {
+            db.User.findOne({ 
+                where: {
+                    email: email
+                } 
+            })
+            .then( result => {
+                // can't find email case
+                if(result == null){
+                    return done(null, false);
+                }
+                // password doesn't match
+                else if(result.password !== password){
+                    return done(null, false);
+                }
+                // finds the email and password matches
+                else{
+                    return done(null, user);
+                }
+            })
+            .catch( err => {
+                if (err) { return done(err); }
+            });
+            // function (err, user) {
+                
+            //     if (!user) { return done(null, false); }
+            //     if (!user.verifyPassword(password)) { return done(null, false); }
+            //     return done(null, user);
+            // });
+        }
+    ));
+
+    // log in route
+    app.post('/api/login', 
+    passport.authenticate('local', { /* failureRedirect: '/login' */ }),
+        function(req, res) {
+            // ?? email
+            console.log(req.user)
+            console.log(req.isAuthenticated());
+            if(req.isAuthenticated()){
+                res.json({
+                    email: req.user.email
+                });
+            }
+            else{
+                res.json({
+                    error: "error at login"
+                })
+            }
+        }
+    );
 
     app.get("/testdb", (req, res) => {
-        //   // Create an object containing dummy data to save to the database
-        // var data = {
-        //   array: ["item1", "item2", "item3"],
-        //   boolean: false,
-        //   string:
-        //     "\"Don't worry if it doesn't work right. If everything did, you'd be out of a job\" - Mosher's Law of Software Engineering",
-        //   number: 42
-        // };
-        
-        // // Save a new Example using the data object
-        // Example.create(data)
-        //   .then(function(dbExample) {
-        //     // If saved successfully, print the new Example document to the console
-        //     console.log(dbExample);
-        //     res.json(dbExample);
-        //   })
-        //   .catch(function(err) {
-        //     // If an error occurs, log the error message
-        //     console.log(err.message);
-        //     res.json({error: "you made a boo boo"});
-        //   });
         db.User.findAll({})
         .then( dbUsers => {
             // We have access to the todos as an argument inside of the callback function
@@ -47,9 +90,40 @@ module.exports = function(app) {
         });
         ;
     });
-    app.post("/api/user", (req, res) => {
-        res.json({
-            test: "test"
+
+    app.get("/testdb1", (req, res) => {
+        db.User.findOne({
+            where: {
+                email: "uniquename@csc.com"
+            }
+        })
+        .then( dbUsers => {
+            // We have access to the todos as an argument inside of the callback function
+            res.json(dbUsers);
+        })
+        .catch( error => {
+            res.json({
+                error: "Error getting users"
+            });
+            console.log(error);
         });
+        ;
+    });
+    app.post("/api/user", (req, res) => {
+        console.log(req.body);
+        db.User.create({
+            email: req.body.email,
+            password: req.body.password
+        })
+        .then( results => {
+            res.json(results);
+        })
+        .catch( error => {
+            res.json({
+                error: "wtf man you messed this example up... no donuts for you!"
+            });
+        });
+        ;
+        
     });
 };

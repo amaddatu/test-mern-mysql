@@ -3,8 +3,9 @@ import axios from "axios";
 // Export an object containing methods we'll use for accessing the Dog.Ceo API
 
 export default {
-  registerUser: function(email, password){
+  registerUser: (email, password) => {
     //can add a hash function later to increase security
+    console.log("Running in the browsers");
     return axios.post("/api/user", { email: email, password: password});
   }
   // //gets a single random dog
