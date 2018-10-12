@@ -10,7 +10,7 @@ class Login extends Component {
     API.loginUser(event.target.email.value, event.target.password.value)
     .then( response => {
       console.log(response.data);
-      window.location("/");
+      window.location = "/";
       //window.location = "/thank-you";
     } )
     .catch( error => {
