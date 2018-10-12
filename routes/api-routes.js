@@ -84,6 +84,20 @@ module.exports = function(app, passport) {
         }
     );
 
+    app.get("/api/email", (req, res) => {
+        console.log(req.user);
+        if(req.isAuthenticated()){
+            res.json({
+                email: req.user[0].dataValues.email
+            });
+        }
+        else{
+            res.json({
+                error: "you are not logged in"
+            }); 
+        }
+    });
+
     app.get("/testdb", (req, res) => {
         db.User.findAll({})
         .then( dbUsers => {
