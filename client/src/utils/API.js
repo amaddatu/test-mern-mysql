@@ -12,6 +12,9 @@ export default {
     //can add a hash function later to increase security
     console.log("Running in the browsers");
     return axios.post("/api/login", { email: email, password: password});
+  },
+  getEmail: () => {
+    return axios.get("/api/email");
   }
   // //gets a single random dog
   // getRandomDog: function() {

@@ -7,7 +7,7 @@ class NavBar extends Component {
   render() {
     return (
         <Fragment>
-            <h1>Pupster</h1>
+            <h1>Pupster (email : {this.props.email})</h1>
             <ul>
                 <li>
                     <Link to="/" className="navlink">

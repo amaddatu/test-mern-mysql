@@ -8,15 +8,28 @@ import Error from './pages/Error'; //???
 import SignUp from './pages/SignUp'; //???
 import Login from './pages/Login'; //???
 import Search from './pages/Search'; //???
+import API from './utils/API'; //???
 import ThankYouForRegistering from './pages/ThankYouForRegistering';
 import NavBar from './NavBar';
 
 class App extends Component {
+  state = {
+    email: ""
+  }
+  componentDidMount = () => {
+    API.getEmail()
+    .then( response => {
+      console.log(response.data.email);
+      this.setState({
+        email: response.data.email
+      });
+    });
+  }
   render() {
     return (
       <Router>
         <Fragment>
-          <NavBar />
+          <NavBar email={this.state.email} />
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/about" component={About} />
