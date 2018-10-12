@@ -25,7 +25,7 @@ app.use(expressSession({
   secret: 'keyboard cat',
   resave: true, 
   saveUninitialized: true,
-  secure: false
+  secure: false 
 }));
 app.use(passport.initialize());
 app.use(passport.session());

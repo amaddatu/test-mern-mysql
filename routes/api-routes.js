@@ -15,28 +15,35 @@ var LocalStrategy = require("passport-local").Strategy;
 module.exports = function(app, passport) {
     // Define our storage for user data in passport
     passport.serializeUser(function(user, done) {
-        done(null, user.id);
+        done(null, user.email);
     });
     
-    passport.deserializeUser(function(id, done) {
-        db.User.findAll({ id: id }, function (err, user) {
-            done(err, user);
-        });
+    passport.deserializeUser(function(email, done) {
+        db.User.findAll({ where: {email: email }})
+        .then(function (user) {
+            done(null, user);
+        })
+        .catch(error => {
+            console.log(error);
+            done(error, false);
+        })
+        ;
     });
     passport.use(new LocalStrategy(
+        {usernameField:"email", passwordField:"password"},
         function(email, password, done) {
             db.User.findOne({ 
                 where: {
                     email: email
                 } 
             })
-            .then( result => {
+            .then( user => {
                 // can't find email case
-                if(result == null){
+                if(user == null){
                     return done(null, false);
                 }
                 // password doesn't match
-                else if(result.password !== password){
+                else if(user.password !== password){
                     return done(null, false);
                 }
                 // finds the email and password matches
@@ -58,9 +65,10 @@ module.exports = function(app, passport) {
 
     // log in route
     app.post('/api/login', 
-    passport.authenticate('local', { /* failureRedirect: '/login' */ }),
+        passport.authenticate('local', { /* failureRedirect: '/login' */ }),
         function(req, res) {
             // ?? email
+            console.log("test");
             console.log(req.user)
             console.log(req.isAuthenticated());
             if(req.isAuthenticated()){
