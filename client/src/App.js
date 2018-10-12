@@ -6,6 +6,7 @@ import Home from './pages/Home'; //???
 import About from './pages/About'; //???
 import Error from './pages/Error'; //???
 import SignUp from './pages/SignUp'; //???
+import Login from './pages/Login'; //???
 import Search from './pages/Search'; //???
 import ThankYouForRegistering from './pages/ThankYouForRegistering';
 import NavBar from './NavBar';
@@ -20,6 +21,7 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/about" component={About} />
             <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/login" component={Login} />
             <Route exact path="/search" component={Search} />
             <Route exact path="/thank-you" component={ThankYouForRegistering} />
             <Route exact path="/search/:term" component={Search} />

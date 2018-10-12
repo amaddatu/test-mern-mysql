@@ -21,7 +21,12 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(expressSession({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.use(expressSession({ 
+  secret: 'keyboard cat',
+  resave: true, 
+  saveUninitialized: true,
+  secure: false
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());

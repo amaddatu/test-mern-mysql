@@ -25,6 +25,11 @@ class NavBar extends Component {
                     </Link>
                 </li>
                 <li>
+                    <Link to="/login" className="navlink">
+                        Login
+                    </Link>
+                </li>
+                <li>
                     <Link to="/search" className="navlink">
                         Search
                     </Link>
