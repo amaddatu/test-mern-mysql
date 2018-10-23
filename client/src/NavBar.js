@@ -30,6 +30,12 @@ class NavBar extends Component {
                         Search
                     </Link>
                 </li>
+                
+                <li>
+                    <Link to="/game" className="navlink">
+                        Game
+                    </Link>
+                </li>
             </ul>
         </Fragment>
     );

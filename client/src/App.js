@@ -5,6 +5,7 @@ import "./Rover.scss";
 import Home from './pages/Home'; //???
 import About from './pages/About'; //???
 import Error from './pages/Error'; //???
+import Game from './pages/Game'; //???
 import SignUp from './pages/SignUp'; //???
 import Search from './pages/Search'; //???
 import ThankYouForRegistering from './pages/ThankYouForRegistering';
@@ -21,6 +22,9 @@ class App extends Component {
             <Route exact path="/about" component={About} />
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/search" component={Search} />
+            <Route path="/game" render={
+              (props) => <Game {...props} test="mayo" />
+            } />
             <Route exact path="/thank-you" component={ThankYouForRegistering} />
             <Route exact path="/search/:term" component={Search} />
             <Route component={Error} />
